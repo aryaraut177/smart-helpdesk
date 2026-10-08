@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <title>Smart IT Helpdesk</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+  <b>Smart IT Helpdesk</b>
+  <a href="/">Dashboard</a>
+  <a href="/tickets">Tickets</a>
+</nav>
+<main>
+  <h1>Helpdesk Dashboard</h1>
+  <div class="cards">
+    <div class="card"><span>Total Tickets</span><strong>{{ total }}</strong></div>
+    <div class="card"><span>Open Tickets</span><strong>{{ open_count }}</strong></div>
+    <div class="card"><span>Resolved Tickets</span><strong>{{ resolved }}</strong></div>
+  </div>
+
+  <div class="panel">
+    <h2>Create a Ticket</h2>
+    <form method="post" action="/tickets/create">
+      <input name="name" placeholder="Your name" required>
+      <input name="title" placeholder="Issue title" required>
+      <textarea name="description" placeholder="Describe the problem" required></textarea>
+      <select name="category">
+        <option>Network</option><option>Hardware</option>
+        <option>Software</option><option>Other</option>
+      </select>
+      <select name="priority">
+        <option>Low</option><option selected>Medium</option><option>High</option><option>Critical</option>
+      </select>
+      <button type="submit">Create Ticket</button>
+    </form>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <title>Tickets - Smart IT Helpdesk</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav>
+  <b>Smart IT Helpdesk</b>
+  <a href="/">Dashboard</a>
+  <a href="/tickets">Tickets</a>
+</nav>
+<main>
+  <h1>Tickets</h1>
+  <div class="panel">
+    <table>
+      <tr><th>ID</th><th>Issue</th><th>Category</th><th>Priority</th><th>Status</th><th>Action</th></tr>
+      {% for t in tickets %}
+      <tr>
+        <td>{{ t.id }}</td>
+        <td>{{ t.title }}</td>
+        <td>{{ t.category }}</td>
+        <td>{{ t.priority }}</td>
+        <td>{{ t.status }}</td>
+        <td>
+          {% if t.status != "Resolved" %}
+          <form method="post" action="/tickets/{{ t.id }}/resolve">
+            <button>Resolve</button>
+          </form>
+          {% else %}✓{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</main>
+</body>
+</html>

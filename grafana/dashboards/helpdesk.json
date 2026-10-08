@@ -1,0 +1,73 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Total Tickets",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "targets": [{"expr": "helpdesk_tickets_total", "refId": "A"}]
+    },
+    {
+      "type": "stat",
+      "title": "Open Tickets",
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+      "targets": [{"expr": "helpdesk_tickets_open", "refId": "A"}]
+    },
+    {
+      "type": "stat",
+      "title": "Resolved Tickets",
+      "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+      "targets": [{"expr": "helpdesk_tickets_resolved", "refId": "A"}]
+    },
+    {
+      "type": "timeseries",
+      "title": "HTTP Requests / Second",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+      "targets": [{
+        "expr": "sum(rate(flask_http_request_total{path=~\"$endpoint\"}[1m]))",
+        "legendFormat": "requests/sec"
+      }]
+    },
+    {
+      "type": "timeseries",
+      "title": "Average Response Time",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+      "targets": [{
+        "expr": "sum(rate(flask_http_request_duration_seconds_sum{path=~\"$endpoint\"}[1m])) / sum(rate(flask_http_request_duration_seconds_count{path=~\"$endpoint\"}[1m]))",
+        "legendFormat": "seconds"
+      }]
+    },
+    {
+      "type": "timeseries",
+      "title": "Tickets Created",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 12},
+      "targets": [{
+        "expr": "increase(helpdesk_ticket_created_total[$__rate_interval])",
+        "legendFormat": "tickets"
+      }]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "templating": {
+    "list": [
+      {
+        "name": "endpoint",
+        "type": "query",
+        "label": "Endpoint",
+        "datasource": {"type": "prometheus", "uid": "prometheus"},
+        "query": "label_values(flask_http_request_total, path)",
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
+        "current": {"text": "All", "value": [".*"]}
+      }
+    ]
+  },
+  "time": {"from": "now-30m", "to": "now"},
+  "title": "Smart Helpdesk Monitoring",
+  "uid": "smart-helpdesk",
+  "version": 1
+}
