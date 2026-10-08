@@ -4,13 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'python3 -m pip install --break-system-packages -r requirements.txt'
+                echo 'Checking out Smart Helpdesk source code'
             }
         }
 
